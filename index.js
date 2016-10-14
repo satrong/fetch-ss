@@ -14,14 +14,16 @@ let headers = {
     "X-Requested-With": "XMLHttpRequest"
 };
 let ssConfigPath = path.join("D:\\Program Files (x86)\\ss", "gui-config.json");
+let isLinux = process.platform === "linux";
 
+console.log("正在获取邀请码...");
 request(domain("/invite"), function (error, response, body) {
     if (!error && response.statusCode == 200) {
         let $ = cheerio.load(body);
         let code = $("table").children("tbody").children().first().children().eq(1).text();
         register(code)
     } else {
-        console.error("获取邀请码：", error);
+        console.error("获取邀请码失败：", error);
     }
 });
 
@@ -94,17 +96,21 @@ function getNode(id) {
         if (!error && response.statusCode == 200) {
             let json = JSON.parse(body);
             if (json.code === 200 && json.data.error === 0) {
-                let ssJSON = JSON.parse(json.data.info.ssjson);
-                console.log("获取节点成功，正在写入ss配置文件");
-                fs.readFile(ssConfigPath, "utf8", function (err, content) {
-                    let config = JSON.parse(content);
-                    config.configs.length = 0;
-                    config.configs.push(ssJSON);
-                    fs.writeFile(ssConfigPath, JSON.stringify(config), "utf8", function (err) {
-                        if (err) return console.log("写入配置失败", err.message);
-                        console.log("写入节点信息成功");
+                if (isLinux) {
+                    console.log("URI:\n", json.data.info.ssurl);
+                } else {
+                    let ssJSON = JSON.parse(json.data.info.ssjson);
+                    console.log("获取节点成功，正在写入ss配置文件");
+                    fs.readFile(ssConfigPath, "utf8", function (err, content) {
+                        let config = JSON.parse(content);
+                        config.configs.length = 0;
+                        config.configs.push(ssJSON);
+                        fs.writeFile(ssConfigPath, JSON.stringify(config), "utf8", function (err) {
+                            if (err) return console.log("写入配置失败", err.message);
+                            console.log("写入节点信息成功");
+                        });
                     });
-                });
+                }
             } else {
                 console.log(json.data.message);
             }
