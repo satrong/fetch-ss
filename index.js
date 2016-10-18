@@ -104,10 +104,12 @@ function getNode(id) {
                     fs.readFile(ssConfigPath, "utf8", function (err, content) {
                         let config = JSON.parse(content);
                         config.configs.length = 0;
+						ssJSON.email = email;
+						ssJSON.password = passwd;
                         config.configs.push(ssJSON);
                         fs.writeFile(ssConfigPath, JSON.stringify(config), "utf8", function (err) {
                             if (err) return console.log("写入配置失败", err.message);
-                            console.log("写入节点信息成功");
+                            console.log(`写入节点信息成功，email:${email},password:${passwd}`);
                         });
                     });
                 }
