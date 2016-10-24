@@ -6,6 +6,7 @@ const requestJ = request.defaults({
 	jar: JAR
 });
 const cheerio = require("cheerio");
+let isLinux = process.platform === "linux";
 let domain = function (pathname) {
 	return "https://iecho.cc" + pathname;
 };
@@ -15,8 +16,9 @@ let headers = {
 	"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2885.0 Safari/537.36",
 	"X-Requested-With": "XMLHttpRequest"
 };
+
+/// 配置shadowsocks的gui-config.json文件的路径
 let ssConfigPath = path.join("D:\\Program Files (x86)\\ss", "gui-config.json");
-let isLinux = process.platform === "linux";
 
 console.log("正在获取邀请码...");
 request(domain("/invite"), function (error, response, body) {
