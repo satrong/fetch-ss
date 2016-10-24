@@ -9,4 +9,7 @@
 # 配置
 直接到`index.js`修改`shadowsocks`安装路径（即变量`ssConfigPath`）
 
+# 使用
+执行命令 `node index.js` 即可
+
 > 注意：Linux下只返回URI路径
