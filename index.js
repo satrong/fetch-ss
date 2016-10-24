@@ -21,13 +21,16 @@ let headers = {
 let ssConfigPath = path.join("D:\\Program Files (x86)\\ss", "gui-config.json");
 
 console.log("正在获取邀请码...");
-request(domain("/invite"), function (error, response, body) {
+request({
+	url: domain("/invite"),
+	timeout: 30000
+}, function (error, response, body) {
 	if (!error && response.statusCode == 200) {
 		let $ = cheerio.load(body);
 		let code = $("table").children("tbody").children().first().children().eq(1).text();
 		register(code)
 	} else {
-		console.error("获取邀请码失败：", error);
+		console.error("获取邀请码失败：", error.message);
 	}
 });
 
@@ -55,7 +58,7 @@ function register(code) {
 				console.log(json);
 			}
 		} else {
-			console.error("注册账号：", error);
+			console.error("注册账号：", error.message);
 		}
 	});
 }
@@ -82,7 +85,7 @@ function login() {
 				console.log(json.data.message);
 			}
 		} else {
-			console.error("登录：", error);
+			console.error("登录：", error.message);
 		}
 	});
 }
@@ -104,14 +107,14 @@ function getNode(id) {
 					console.log("URI:\n", json.data.info.ssurl);
 				} else {
 					let ssJSON = JSON.parse(json.data.info.ssjson);
+					ssJSON.userinfo = {
+						email: email,
+						password: passwd
+					};
 					console.log("获取节点成功，正在写入ss配置文件");
 					fs.readFile(ssConfigPath, "utf8", function (err, content) {
 						let config = JSON.parse(content);
 						config.configs.length = 0;
-						ssJSON.userinfo = {
-							email: email,
-							password: passwd
-						};
 						config.configs.push(ssJSON);
 						fs.writeFile(ssConfigPath, JSON.stringify(config), "utf8", function (err) {
 							if (err) {
@@ -121,11 +124,17 @@ function getNode(id) {
 						});
 					});
 				}
+
+				/// 将获取的节点信息保存temp.json文件中
+				fs.writeFile("./temp.json", JSON.stringify(ssJSON, null, 4), "utf8", function (err) {
+					if (err) return console.error(err);
+					console.log("已将节点信息保存到temp.json文件中");
+				});
 			} else {
 				console.log(json.data.message);
 			}
 		} else {
-			console.error("登录：", error);
+			console.error("登录：", error.message);
 		}
 	});
 }
