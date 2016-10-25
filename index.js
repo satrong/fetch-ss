@@ -103,14 +103,14 @@ function getNode(id) {
 		if (!error && response.statusCode == 200) {
 			let json = JSON.parse(body);
 			if (json.code === 200 && json.data.error === 0) {
+				let ssJSON = JSON.parse(json.data.info.ssjson);
+				ssJSON.userinfo = {
+					email: email,
+					password: passwd
+				};
 				if (isLinux) {
 					console.log("URI:\n", json.data.info.ssurl);
 				} else {
-					let ssJSON = JSON.parse(json.data.info.ssjson);
-					ssJSON.userinfo = {
-						email: email,
-						password: passwd
-					};
 					console.log("获取节点成功，正在写入ss配置文件");
 					fs.readFile(ssConfigPath, "utf8", function (err, content) {
 						let config = JSON.parse(content);
@@ -126,6 +126,7 @@ function getNode(id) {
 				}
 
 				/// 将获取的节点信息保存temp.json文件中
+				ssJSON.ssurl = json.data.info.ssurl;
 				fs.writeFile("./temp.json", JSON.stringify(ssJSON, null, 4), "utf8", function (err) {
 					if (err) return console.error(err);
 					console.log("已将节点信息保存到temp.json文件中");
