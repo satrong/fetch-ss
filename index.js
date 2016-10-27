@@ -12,8 +12,9 @@ let domain = function (pathname) {
 };
 let email = Date.now() + '@qq.com';
 let passwd = "a123456789";
+let ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2885.0 Safari/537.36";
 let headers = {
-	"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2885.0 Safari/537.36",
+	"User-Agent": ua,
 	"X-Requested-With": "XMLHttpRequest"
 };
 
@@ -23,7 +24,10 @@ let ssConfigPath = path.join("D:\\Program Files (x86)\\ss", "gui-config.json");
 console.log("正在获取邀请码...");
 request({
 	url: domain("/invite"),
-	timeout: 30000
+	timeout: 30000,
+	headers: {
+		"User-Agent": ua
+	}
 }, function (error, response, body) {
 	if (!error && response.statusCode == 200) {
 		let $ = cheerio.load(body);
