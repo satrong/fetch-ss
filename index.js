@@ -40,6 +40,7 @@ request({
 
 /// 注册账号
 function register(code) {
+	console.log("正在注册账号...");
 	request({
 		url: domain("/auth/register.json"),
 		method: "POST",
