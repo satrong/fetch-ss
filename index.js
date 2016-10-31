@@ -57,6 +57,7 @@ function register(code) {
 		if (!error && response.statusCode == 200) {
 			let json = JSON.parse(body);
 			if (json.code === 200 && json.data.error === 0) {
+				console.log(email, passwd);
 				console.log(json.data.message, "正在登录...");
 				login();
 			} else {
@@ -125,7 +126,7 @@ function getNode(id) {
 							if (err) {
 								return console.log("写入配置失败", err.message);
 							}
-							console.log(`写入节点信息成功，email:${email},password:${passwd}`);
+							console.log("写入节点信息成功");
 						});
 					});
 				}
