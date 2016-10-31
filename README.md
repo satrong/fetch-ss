@@ -13,5 +13,3 @@
 
 # 使用
 执行命令 `node index.js` 即可
-
-> 注意：Linux下只返回URI路径
