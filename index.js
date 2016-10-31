@@ -117,18 +117,20 @@ function getNode(id) {
 				if (isLinux) {
 					console.log("URI:\n", json.data.info.ssurl);
 				} else {
-					console.log("获取节点成功，正在写入ss配置文件");
-					fs.readFile(ssConfigPath, "utf8", function (err, content) {
-						let config = JSON.parse(content);
-						config.configs.length = 0;
-						config.configs.push(ssJSON);
-						fs.writeFile(ssConfigPath, JSON.stringify(config), "utf8", function (err) {
-							if (err) {
-								return console.log("写入配置失败", err.message);
-							}
-							console.log("写入节点信息成功");
+					if(ssConfigPath) {
+						console.log("获取节点成功，正在写入ss配置文件");
+						fs.readFile(ssConfigPath, "utf8", function (err, content) {
+							let config = JSON.parse(content);
+							config.configs.length = 0;
+							config.configs.push(ssJSON);
+							fs.writeFile(ssConfigPath, JSON.stringify(config), "utf8", function (err) {
+								if (err) {
+									return console.log("写入配置失败", err.message);
+								}
+								console.log("写入节点信息成功");
+							});
 						});
-					});
+					}					
 				}
 
 				/// 将获取的节点信息保存temp.json文件中
