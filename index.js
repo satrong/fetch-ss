@@ -24,7 +24,6 @@ let ssConfigPath = path.join("D:\\Program Files (x86)\\ss", "gui-config.json");
 console.log("正在获取邀请码...");
 request({
 	url: domain("/invite"),
-	timeout: 30000,
 	headers: {
 		"User-Agent": ua
 	}
