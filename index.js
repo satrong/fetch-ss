@@ -14,6 +14,7 @@ let email = Date.now() + '@qq.com';
 let passwd = "a123456789";
 let ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2885.0 Safari/537.36";
 let headers = {
+	"Referer": domain("/"),
 	"User-Agent": ua,
 	"X-Requested-With": "XMLHttpRequest"
 };
