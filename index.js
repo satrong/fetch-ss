@@ -29,7 +29,7 @@ let headers = {
 };
 
 /// 配置shadowsocks的gui-config.json文件的路径
-let ssConfigPath = path.join("D:\\Program Files (x86)\\ss", "gui-config.json");
+let ssConfigPath = path.join(__dirname, "gui-config.json");
 
 console.log("正在获取邀请码...");
 request({
