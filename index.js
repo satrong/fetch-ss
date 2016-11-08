@@ -12,7 +12,16 @@ let domain = function (pathname) {
 };
 let email = Date.now() + '@qq.com';
 let passwd = "a123456789";
-let ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2885.0 Safari/537.36";
+let ua = [
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2885.0 Safari/537.36",
+	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.59 Safari/537.36 OPR/41.0.2353.46",
+	"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0",
+	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393",
+	"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1",
+	"Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; en) Presto/2.8.131 Version/11.11",
+	"Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"
+][Math.floor(Math.random()*7)];
+
 let headers = {
 	"Referer": domain("/"),
 	"User-Agent": ua,
@@ -80,12 +89,17 @@ function login() {
 			passwd: passwd,
 			remember_me: "week"
 		},
-		headers: headers
+		headers: Object.assign({}, headers, {
+			"Host": "iecho.cc",
+			"Origin": "https://iecho.cc",
+			"Pragma": "no-cache",
+			"Referer": "https://iecho.cc/member/node"
+		})
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			let json = JSON.parse(body);
 			if (json.code === 200 && json.data.error === 0) {
-				console.log("登录成功,正在获取节点...")
+				console.log("登录成功,正在获取韩国高速节点...")
 				getNode(6); // 1东京节点 6韩国高速节点
 			} else {
 				console.log(json.data.message);
@@ -104,6 +118,7 @@ function getNode(id) {
 		form: {
 			id: id
 		},
+		timeout: 60000,
 		headers: headers
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -117,7 +132,7 @@ function getNode(id) {
 				if (isLinux) {
 					console.log("URI:\n", json.data.info.ssurl);
 				} else {
-					if(ssConfigPath) {
+					if (ssConfigPath) {
 						console.log("获取节点成功，正在写入ss配置文件");
 						fs.readFile(ssConfigPath, "utf8", function (err, content) {
 							let config = JSON.parse(content);
@@ -130,7 +145,7 @@ function getNode(id) {
 								console.log("写入节点信息成功");
 							});
 						});
-					}					
+					}
 				}
 
 				/// 将获取的节点信息保存temp.json文件中
@@ -141,9 +156,15 @@ function getNode(id) {
 				});
 			} else {
 				console.log(json.data.message);
+				if (id === 1) return;
+				console.log("获取日本普通节点...")
+				getNode(1);
 			}
 		} else {
-			console.error("登录：", error.message);
+			console.error("获取节点：", error.message);
+			if (id === 1) return;
+			console.log("获取日本普通节点...")
+			getNode(1);
 		}
 	});
 }
