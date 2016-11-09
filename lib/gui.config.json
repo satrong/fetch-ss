@@ -1,0 +1,45 @@
+{
+	"configs": [],
+	"strategy": null,
+	"index": 0,
+	"global": false,
+	"enabled": true,
+	"shareOverLan": false,
+	"isDefault": false,
+	"localPort": 1080,
+	"pacUrl": null,
+	"useOnlinePac": false,
+	"availabilityStatistics": false,
+	"autoCheckUpdate": true,
+	"isVerboseLogging": false,
+	"logViewer": {
+		"fontName": "Consolas",
+		"fontSize": 8.0,
+		"bgColor": "Black",
+		"textColor": "White",
+		"topMost": false,
+		"wrapText": false,
+		"toolbarShown": false,
+		"width": 600,
+		"height": 400,
+		"top": 680,
+		"left": 1258,
+		"maximized": false
+	},
+	"proxy": {
+		"useProxy": false,
+		"proxyType": 0,
+		"proxyServer": "",
+		"proxyPort": 0,
+		"proxyTimeout": 3
+	},
+	"hotkey": {
+		"SwitchSystemProxy": "",
+		"ChangeToPac": "",
+		"ChangeToGlobal": "",
+		"SwitchAllowLan": "",
+		"ShowLogs": "",
+		"ServerMoveUp": "",
+		"ServerMoveDown": ""
+	}
+}
