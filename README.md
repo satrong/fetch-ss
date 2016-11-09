@@ -1,15 +1,15 @@
-由于注册的`iecho.cc`账号只能使用一天，自己闲麻烦，于是写了一个爬虫自动获取它的节点信息。
+此程序我只是用来练习JavaScript中的`async` `await`方法，并无其他意图。
 
 # 自动获取流程：
+- 获取邀请码
 - 注册账号
 - 登录
 - 获取节点信息
 - 写入到shadowsocks的配置文件
 
-# 配置
-直接到`index.js`修改`shadowsocks`安装路径（即变量`ssConfigPath`）。
-如果没有安装`shadowsocks`，请将变量`ssConfigPath`设为`false`。
-程序会在项目根目录下生成`temp.json`文件存储节点信息。
-
 # 使用
-执行命令 `node index.js` 即可
+1. clone或下载代码
+2. 执行`npm install`安装依赖包
+3. 执行`npm start`获取节点信息
+4. 如果是Windows系统可以直接打开目录下的`shadowsocks.exe`，如果是Linux系统则会在cli中显示出URI地址。
+
