@@ -9,7 +9,7 @@
 
 # 使用
 1. clone或下载代码
-2. 执行`npm install`安装依赖包
+2. 执行`npm install`安装依赖包(需要node 7.0+)
 3. 执行`npm start`获取节点信息
 4. 如果是Windows系统可以直接打开目录下的`shadowsocks.exe`，如果是Linux系统则会在cli中显示出URI地址。
 
